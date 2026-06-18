@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# ── Configuración ─────────────────────────────────────────────────────────────
+# Configuración
 BASE_URL   = "https://music.youtube.com/youtubei/v1"
 API_KEY    = "AIzaSyC9XL3ZjWdtnsGnGoMT-OQXHK0WKVQHQ"
 TIMEOUT    = 15
@@ -21,8 +21,8 @@ def get_headers():
         "User-Agent":               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
         "Origin":                   "https://music.youtube.com",
         "Referer":                  "https://music.youtube.com/",
-        "X-Youtube-Client-Name":    "67",
-        "X-Youtube-Client-Version": "1.20240101.00.00",
+        "X-Youtube-Client-Name":    "21",
+        "X-Youtube-Client-Version": "7.27.0",
         "X-Goog-AuthUser":          "4",
         "X-Goog-Visitor-Id":        YT_VISITOR,
         "Authorization":            YT_AUTH,
@@ -32,10 +32,11 @@ def get_headers():
 def build_context():
     return {
         "client": {
-            "clientName":    "WEB_REMIX",
-            "clientVersion": "1.20240101.00.00",
-            "hl":            "en",
-            "gl":            "US",
+            "clientName":    "ANDROID_MUSIC",
+            "clientVersion": "7.27.0",
+            "androidSdkVersion": 30,
+            "hl": "en",
+            "gl": "US",
         }
     }
 
@@ -45,7 +46,7 @@ def innertube_post(endpoint, body):
     resp.raise_for_status()
     return resp.json()
 
-# ── PASO 1: Buscar videoId ────────────────────────────────────────────────────
+# PASO 1: Buscar videoId
 def search_video_id(title, artist):
     body = {
         "context": build_context(),
@@ -81,7 +82,7 @@ def search_video_id(title, artist):
         print(f"[search] Error: {e}")
     return None
 
-# ── PASO 2: Obtener browseId de lyrics ────────────────────────────────────────
+# PASO 2: Obtener browseId de lyrics
 def get_lyrics_browse_id(video_id):
     body = {
         "context": build_context(),
@@ -106,7 +107,7 @@ def get_lyrics_browse_id(video_id):
         print(f"[next] Error: {e}")
     return None
 
-# ── PASO 3: Obtener lyrics desde browseId ─────────────────────────────────────
+# PASO 3: Obtener lyrics desde browseId
 def fetch_lyrics(browse_id):
     body = {
         "context":  build_context(),
@@ -133,7 +134,7 @@ def fetch_lyrics(browse_id):
         print(f"[browse] Error: {e}")
     return None, None
 
-# ── Endpoint principal ────────────────────────────────────────────────────────
+# Endpoint principa
 @app.route("/lyrics")
 def get_lyrics():
     title  = request.args.get("title", "").strip()
@@ -171,7 +172,7 @@ def get_lyrics():
         print(f"[/lyrics] Unexpected error: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-# ── Health check ──────────────────────────────────────────────────────────────
+# Health check
 @app.route("/")
 def index():
     return jsonify({"api": "ZyncWave-Lyrics", "status": "running"})
