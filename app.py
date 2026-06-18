@@ -54,6 +54,13 @@ def search_video_id(title, artist):
         "params":  "Eg-KAQwIARAAGAAgACgAMABqChAEEAMQCRAFEAo%3D"
     }
     data = innertube_post("search", body)
+    
+    # Log temporal para ver la estructura
+    import json
+    print(f"[search] response keys: {list(data.keys())}")
+    if "contents" in data:
+        print(f"[search] contents keys: {list(data['contents'].keys())}")
+    print(f"[search] full response: {json.dumps(data)[:1000]}")
 
     try:
         tabs = (data["contents"]
