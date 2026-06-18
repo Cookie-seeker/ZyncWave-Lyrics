@@ -1,7 +1,7 @@
 # ZyncWave-Lyrics
 
 Servidor minimalista para obtener letras de YouTube Music via Innertube API autenticado.
-Usado internamente por ZyncWave2 Android music player.
+Usado internamente por ZyncWave Android music player.
 
 ## Endpoint
 
