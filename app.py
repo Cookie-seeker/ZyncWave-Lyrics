@@ -54,13 +54,6 @@ def search_video_id(title, artist):
         "params":  "Eg-KAQwIARAAGAAgACgAMABqChAEEAMQCRAFEAo%3D"
     }
     data = innertube_post("search", body)
-    
-    # Log temporal para ver la estructura
-    import json
-    print(f"[search] response keys: {list(data.keys())}")
-    if "contents" in data:
-        print(f"[search] contents keys: {list(data['contents'].keys())}")
-    print(f"[search] full response: {json.dumps(data)[:1000]}")
 
     try:
         tabs = (data["contents"]
@@ -75,14 +68,12 @@ def search_video_id(title, artist):
                 items = (section.get("musicShelfRenderer", {})
                                 .get("contents", []))
                 for item in items:
-                    video_id = (item.get("musicResponsiveListItemRenderer", {})
-                                    .get("overlay", {})
-                                    .get("musicItemThumbnailOverlayRenderer", {})
-                                    .get("content", {})
-                                    .get("musicPlayButtonRenderer", {})
-                                    .get("playNavigationEndpoint", {})
-                                    .get("watchEndpoint", {})
-                                    .get("videoId"))
+                    # ANDROID_MUSIC usa musicTwoColumnItemRenderer
+                    renderer = item.get("musicTwoColumnItemRenderer", {})
+                    video_id = (renderer
+                                .get("navigationEndpoint", {})
+                                .get("watchEndpoint", {})
+                                .get("videoId"))
                     if video_id:
                         return video_id
     except Exception as e:
