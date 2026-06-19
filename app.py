@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Configuración
+#Configuración
 BASE_URL   = "https://music.youtube.com/youtubei/v1"
 API_KEY    = "AIzaSyC9XL3ZjWdtnsGnGoMT-OQXHK0WKVQHQ"
 TIMEOUT    = 15
@@ -67,12 +67,14 @@ def search_video_id(title, artist):
                 items = (section.get("musicShelfRenderer", {})
                                 .get("contents", []))
                 for item in items:
-                    # ANDROID_MUSIC usa musicTwoColumnItemRenderer
-                    renderer = item.get("musicTwoColumnItemRenderer", {})
-                    video_id = (renderer
-                                .get("navigationEndpoint", {})
-                                .get("watchEndpoint", {})
-                                .get("videoId"))
+                    video_id = (item.get("musicResponsiveListItemRenderer", {})
+                                    .get("overlay", {})
+                                    .get("musicItemThumbnailOverlayRenderer", {})
+                                    .get("content", {})
+                                    .get("musicPlayButtonRenderer", {})
+                                    .get("playNavigationEndpoint", {})
+                                    .get("watchEndpoint", {})
+                                    .get("videoId"))
                     if video_id:
                         return video_id
     except Exception as e:
