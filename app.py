@@ -21,8 +21,8 @@ def get_headers():
         "User-Agent":               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
         "Origin":                   "https://music.youtube.com",
         "Referer":                  "https://music.youtube.com/",
-        "X-Youtube-Client-Name":    "21",
-        "X-Youtube-Client-Version": "7.27.0",
+        "X-Youtube-Client-Name":    "67",
+        "X-Youtube-Client-Version": "1.20240101.00.00",
         "X-Goog-AuthUser":          "4",
         "X-Goog-Visitor-Id":        YT_VISITOR,
         "Authorization":            YT_AUTH,
@@ -32,11 +32,10 @@ def get_headers():
 def build_context():
     return {
         "client": {
-            "clientName":    "ANDROID_MUSIC",
-            "clientVersion": "7.27.0",
-            "androidSdkVersion": 30,
-            "hl": "en",
-            "gl": "US",
+            "clientName":    "WEB_REMIX",
+            "clientVersion": "1.20240101.00.00",
+            "hl":            "en",
+            "gl":            "US",
         }
     }
 
